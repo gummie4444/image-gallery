@@ -3,10 +3,12 @@ import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { Router, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
+
 import createRoutes from './routes';
 import * as types from './types';
 import configureStore from './store/configureStore';
 import fetchDataForRoute from './utils/fetchDataForRoute';
+
 
 // Grab the state from a global injected into
 // server-generated HTML

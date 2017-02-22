@@ -1,9 +1,9 @@
-import topics from './topics';
+import images from './images';
 import users from './users';
 
-export { topics, users };
+export { images, users };
 
 export default {
-  topics,
+  images,
   users
 };

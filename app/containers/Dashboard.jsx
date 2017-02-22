@@ -1,10 +1,50 @@
-import React from 'react';
+import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
+import classNames from 'classnames/bind';
+import injectTapEventPlugin from 'react-tap-event-plugin';
+import MainAdminSection from '../components/MainAdminSection';
 
-/*
- * Note: This is kept as a container-level component,
- *  i.e. We should keep this as the container that does the data-fetching
- *  and dispatching of actions if you decide to have any sub-components.
- */
-const Dashboard = () => <div>Welcome to the Dasboard. Stay tuned...</div>;
+import { createImage, typing, destroyImage, openCreateImageModal, closeCreateImageModal } from '../actions/images';
+import styles from '../css/components/vote';
 
-export default Dashboard;
+injectTapEventPlugin();
+
+const cx = classNames.bind(styles);
+
+class Dashboard extends Component {
+  render() {
+    const { images, isCreateImageModalOpen, createImage, destroyImage, openCreateImageModal, closeCreateImageModal} = this.props;
+    return (
+      <div >
+        <MainAdminSection
+          images={images}
+          isCreateImageModalOpen={isCreateImageModalOpen}
+          createImage={createImage}
+          destroyImage={destroyImage}
+          openCreateImageModal={openCreateImageModal}
+          closeCreateImageModal={closeCreateImageModal}
+         />
+      </div>
+    );
+  }
+}
+
+Dashboard.propTypes = {
+  images: PropTypes.array.isRequired,
+  isCreateImageModalOpen: PropTypes.bool.isRequired,
+  openCreateImageModal: PropTypes.func.isRequired,
+  closeCreateImageModal: PropTypes.func.isRequired,
+  createImage: PropTypes.func.isRequired,
+  destroyImage: PropTypes.func.isRequired,
+};
+
+function mapStateToProps(state) {
+  return {
+    images: state.images,
+    isCreateImageModalOpen: state.isCreateImageModalOpen
+  };
+}
+
+// Read more about where to place `connect` here:
+// https://github.com/rackt/react-redux/issues/75#issuecomment-135436563
+export default connect(mapStateToProps, { createImage, destroyImage, openCreateImageModal, closeCreateImageModal })(Dashboard);

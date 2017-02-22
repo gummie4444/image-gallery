@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Page from '../pages/Page';
 import DashboardContainer from '../containers/Dashboard';
+
 
 class Dashboard extends Component {
   getMetaData() {
@@ -28,7 +30,10 @@ class Dashboard extends Component {
   render() {
     return (
       <Page {...this.getMetaData()}>
-        <DashboardContainer {...this.props} />
+        <MuiThemeProvider>
+          <DashboardContainer {...this.props} />
+        </MuiThemeProvider>
+
       </Page>
     );
   }

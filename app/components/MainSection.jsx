@@ -1,36 +1,28 @@
 import React, { PropTypes } from 'react';
 import classNames from 'classnames/bind';
-import TopicItem from '../components/TopicItem';
-import styles from '../css/components/main-section';
+import styles from '../css/components/mainImage';
 
 const cx = classNames.bind(styles);
 
-const MainSection = ({ topics, onIncrement, onDecrement, onDestroy }) => {
-  const topicItems = topics.map((topic, key) => {
-    return (
-      <TopicItem
-        index={key}
-        id={topic.id}
-        key={key}
-        text={topic.text}
-        incrementCount={onIncrement}
-        decrementCount={onDecrement}
-        destroyTopic={onDestroy} />);
+const MainSection = ({ images }) => {
+  const imageItems = images.map((image) => {
+    return (<div key={image.id} className={cx('imageCell')}>
+      <img className={cx('image')} src={'/image/' + image.imageURL} />
+    </div>
+    );
   });
 
   return (
-    <div className={cx('main-section')}>
-      <h3 className={cx('header')}>Vote for your favorite hack day idea</h3>
-      <ul className={cx('list')}>{topicItems}</ul>
+    <div className={cx("imageWrapper")}>
+      <div className={cx("imageGrid")}>
+        {imageItems}
     </div>
+   </div>
   );
 };
 
 MainSection.propTypes = {
-  topics: PropTypes.array.isRequired,
-  onIncrement: PropTypes.func.isRequired,
-  onDecrement: PropTypes.func.isRequired,
-  onDestroy: PropTypes.func.isRequired
+  images: PropTypes.array.isRequired
 };
 
 export default MainSection;

@@ -4,9 +4,28 @@
 import passport from 'passport';
 import unsupportedMessage from '../db/unsupportedMessage';
 import { controllers, passport as passportConfig } from '../db';
+import multer from 'multer';
+import path from 'path';
+
+const TARGET_PATH = path.resolve('../public/uploads');
+
+console.log(TARGET_PATH,"target");
+console.log(__dirname,"dirname")
+
+//Breyta path
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, './server/publics/uploads/');
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + file.originalname.replace(/\s/g, ''));
+  }
+});
+
+const upload = multer({ storage: storage });
 
 const usersController = controllers && controllers.users;
-const topicsController = controllers && controllers.topics;
+const imagesController = controllers && controllers.images;
 
 export default (app) => {
   // user routes
@@ -43,13 +62,14 @@ export default (app) => {
     );
   }
 
-  // topic routes
-  if (topicsController) {
-    app.get('/topic', topicsController.all);
-    app.post('/topic/:id', topicsController.add);
-    app.put('/topic/:id', topicsController.update);
-    app.delete('/topic/:id', topicsController.remove);
+  // image routes
+  if (imagesController) {
+    app.get('/images', imagesController.all);
+    app.post('/image/:image', upload.single('file'), imagesController.add);
+    app.put('/image/:image', imagesController.update);
+    app.delete('/image/:image', imagesController.remove);
+    app.get('/image/:image', imagesController.image);
   } else {
-    console.warn(unsupportedMessage('topics routes'));
+    console.warn(unsupportedMessage('image routes'));
   }
 };

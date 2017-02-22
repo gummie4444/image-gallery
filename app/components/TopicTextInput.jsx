@@ -15,6 +15,7 @@ export default class TopicTextInput extends Component {
    */
   onSave() {
     const { onEntrySave, value } = this.props;
+    console.log(value,"value");
     onEntrySave(value);
   }
 
@@ -24,7 +25,9 @@ export default class TopicTextInput extends Component {
    */
   onChange(event) {
     const { onEntryChange } = this.props;
+    console.log(event.target.value,"value");
     onEntryChange(event.target.value);
+    console.log(this.props.value,"valueOnChange");
   }
 
   /*
