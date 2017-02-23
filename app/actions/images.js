@@ -52,7 +52,6 @@ export function createImageRequest(data) {
 }
 
 export function createImageSuccess(data) {
-  console.log("dataComingInSun",data);
   return {
     type: types.CREATE_IMAGE_SUCCESS,
     data: data
@@ -80,7 +79,6 @@ export function createImageDuplicate() {
 export function createImage(files, name, question, answer) {
   return (dispatch, getState) => {
     // TODO mabyValidation
-    console.log(files,name,question,answer,"ALLT");
     // If the text box is empty
     if (name.trim().length <= 0) return;
 
@@ -114,7 +112,6 @@ export function createImage(files, name, question, answer) {
     formData.append('question', question);
     formData.append('answer', answer);
     formData.append('id', id);
-    console.log(formData,"formData");
 
     return makeImageRequest('post', id, formData)
       .then(res => {
@@ -123,7 +120,6 @@ export function createImage(files, name, question, answer) {
           // on success, but I've opted to leave that out
           // since we already did an optimistic update
           // We could return res.json();
-          console.log(res, 'response');
           //return res.json();
           // TODO HERE WE ADD THE THUMBNAIL AND IMAGE URL AND ALL THE DATE STUFF
 
@@ -135,7 +131,6 @@ export function createImage(files, name, question, answer) {
         }
       })
       .catch((dot) => {
-        console.log("am i beeing called",dot);
         return dispatch(createImageFailure({ id, error: 'Oops! Something went wrong and we couldn\'t create your image'}));
       });
   };

@@ -12,7 +12,6 @@ export function all(req, res) {
       console.log('Error in first query');
       return res.status(500).send('Something went wrong getting the data');
     }
-    console.log("nær í allt");
     return res.json(images);
   });
 }
@@ -21,15 +20,13 @@ export function all(req, res) {
  * Get single image from server
  */
 export function image(req, res) {
-  const TARGET_PATH = path.resolve(__dirname,'../../../../reactGo/server/publics/uploads/'); // TODO BETTERUIFEHRIFH
+  const TARGET_PATH = path.resolve(__dirname,'../server/publics/uploads'); // TODO BETTERUIFEHRIFH
   const targetPath = path.join(TARGET_PATH, req.params.image);
 
   res.sendFile(targetPath);
 }
 
 export function multerMiddleware(req, res, next) {
-  console.log("bumsjaggalagag",req.body);
-  upload.single('file');
   return next();
 }
 
@@ -37,7 +34,6 @@ export function multerMiddleware(req, res, next) {
  * Add a Topic
  */
 export function add(req, res) {
-  console.log(req.body, "realBody");
   if (req.file) {
     const newImage = new Images();
     newImage.name = req.body.name;
