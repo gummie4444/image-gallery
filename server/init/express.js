@@ -10,7 +10,7 @@ import helmet from 'helmet';
 
 import unsupportedMessage from '../db/unsupportedMessage';
 import { sessionSecret } from '../../config/secrets';
-import { DB_TYPE, ENV, AWS_SECRET_ACCESS_ID, AWS_SECRET_ACCESS_SECRET } from '../../config/env';
+import { DB_TYPE, ENV } from '../../config/env';
 import { session as dbSession } from '../db';
 
 export default (app) => {
@@ -65,7 +65,7 @@ export default (app) => {
   const sess = {
     resave: false,
     saveUninitialized: false,
-    secret: sessionSecret,
+    secret: process.env.SESSION_SECRET || 'tempsecret',
     proxy: true, // The "X-Forwarded-Proto" header will be used.
     name: 'sessionId',
     // Add HTTPOnly, Secure attributes on Session Cookie
