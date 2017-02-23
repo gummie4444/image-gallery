@@ -5,7 +5,6 @@ import { AWS_SECRET_ACCESS_ID, AWS_SECRET_ACCESS_SECRET } from '../../../../conf
 
 import Images from '../models/images';
 
-console.log(AWS_SECRET_ACCESS_ID,AWS_SECRET_ACCESS_SECRET,"secret");
 // MOVE SOMEWHERE
 AWS.config.update(
 {
