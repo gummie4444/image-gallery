@@ -1,7 +1,22 @@
 import _ from 'lodash';
 import path from 'path';
+import AWS from 'aws-sdk'; // MOVE SOMEWHERE
+import { AWS_SECRET_ACCESS_ID, AWS_SECRET_ACCESS_SECRET } from '../../../../config/secrets';
 
 import Images from '../models/images';
+
+console.log(AWS_SECRET_ACCESS_ID,AWS_SECRET_ACCESS_SECRET,"secret");
+// MOVE SOMEWHERE
+AWS.config.update(
+{
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID || AWS_SECRET_ACCESS_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || AWS_SECRET_ACCESS_SECRET,
+  subregion: 'eu-west-1',
+});
+
+
+const s3 = new AWS.S3();
+
 
 /**
  * List
@@ -33,24 +48,45 @@ export function multerMiddleware(req, res, next) {
 /**
  * Add a Topic
  */
-export function add(req, res) {
-  if (req.file) {
-    const newImage = new Images();
-    newImage.name = req.body.name;
-    newImage.question = req.body.question;
-    newImage.answer = req.body.answer;
-    newImage.imageURL = req.file.filename;
-    newImage.id = req.body.id;
-    newImage.thumbnailURL = req.file.filename; // TODO BETTER
 
-    newImage.save((err,image)=> {
-      if (err)
-        return res.stats(400).send(err);
-      return res.status(200).json(newImage);
+export function add(req, res) {
+  console.log("ADDING",req.body);
+  console.log("ADDING",req.file);
+  if (req.file) {
+      const imagePath = req.body.id + '-' + req.file.originalname;
+     return s3.putObject({
+      Bucket: 'photo-app-gudda',
+      Key: imagePath,
+      Body: req.file.buffer,
+      ACL: 'public-read' // ypur permission
+    })
+     .on('httpUploadProgress', (progress) => { console.log(progress,"progress")})
+     .send((err, result) => {
+      if (err){
+        console.log("errorUpploading");
+        return res.status(400).send(err);
+      }
+
+      console.log(result,"s3 result");
+
+      const newImage = new Images();
+      newImage.name = req.body.name;
+      newImage.question = req.body.question;
+      newImage.answer = req.body.answer;
+      newImage.imageURL = imagePath;
+      newImage.id = req.body.id;
+      newImage.thumbnailURL = imagePath; // TODO BETTER
+
+       return newImage.save((mongoError,image) => {
+        if(mongoError)
+           res.status(400).send(mongoError);
+
+         return res.status(200).json(newImage);
+      });
     });
-   }
+  }
   else {
-    res.status(400).send('Could not uppload image');
+    return res.status(400).send('Could not uppload image');
   }
 }
 

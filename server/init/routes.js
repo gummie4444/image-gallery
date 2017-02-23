@@ -2,27 +2,18 @@
  * Routes for express app
  */
 import passport from 'passport';
+import multer from 'multer'; // MOVE SOMEWHERE
 import unsupportedMessage from '../db/unsupportedMessage';
 import { controllers, passport as passportConfig } from '../db';
-import multer from 'multer';
-import path from 'path';
 
-const TARGET_PATH = path.resolve('../public/uploads');
 
-console.log(TARGET_PATH,"target");
-console.log(__dirname,"dirname")
-
-//Breyta path
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, './server/publics/uploads/');
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + file.originalname.replace(/\s/g, ''));
-  }
+// MOVE SOMEWHERE
+const upload = multer({
+  storage: multer.memoryStorage(),
+  // file size limitation in bytes
+  limits: { fileSize: 52428800 },
 });
 
-const upload = multer({ storage: storage });
 
 const usersController = controllers && controllers.users;
 const imagesController = controllers && controllers.images;

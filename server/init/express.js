@@ -7,9 +7,10 @@ import flash from 'express-flash';
 import methodOverride from 'method-override';
 import gzip from 'compression';
 import helmet from 'helmet';
+
 import unsupportedMessage from '../db/unsupportedMessage';
 import { sessionSecret } from '../../config/secrets';
-import { DB_TYPE, ENV } from '../../config/env';
+import { DB_TYPE, ENV, AWS_SECRET_ACCESS_ID, AWS_SECRET_ACCESS_SECRET } from '../../config/env';
 import { session as dbSession } from '../db';
 
 export default (app) => {

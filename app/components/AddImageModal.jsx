@@ -19,7 +19,8 @@ class AddImageModal extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      files: []
+      files: [],
+      loading:false
     };
   }
 
@@ -37,9 +38,15 @@ class AddImageModal extends React.Component {
 
     if (this.state.files.length !== 0 && nameRef !== '' && questionRef !== '' && answerRef !== '') {
       this.setState({
-        files: []
-      })
-      this.props.createImage(this.state.files, nameRef, questionRef, answerRef); // this should close the imageModal if succesfull
+        loading:true
+      });
+
+      this.props.createImage(this.state.files, nameRef, questionRef, answerRef).then(()=>{
+        this.setState({
+          files: [],
+          loading:false
+        })
+      }); // this should close the imageModal if succesfull
     } else {
       console.log("ÞAÐ ER ERROR HÖNDLE IT BRUTHER")
     }
@@ -129,6 +136,7 @@ class AddImageModal extends React.Component {
         open={isOpen}
         onRequestClose={this.back.bind(this)}
         >
+        {this.state.loading && 'UPPLOADING IMAGE WAIT '}
         <div className = {cx("addImageModalWrapper")}>
           {this.state.files.length !== 0 ?
             imagePreview()

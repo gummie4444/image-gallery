@@ -22,7 +22,7 @@ const ImageAdminItem = ({ name, id, question, answer, imageURL, thumbnailURL, de
      primaryText={name}
      secondaryTextLines={2}
      rightAvatar={<Avatar icon={<EditIcon />} />}
-     leftAvatar={<Avatar size={50} src={'/image/' + thumbnailURL} />}
+     leftAvatar={<Avatar size={50} src={'https://s3-eu-west-1.amazonaws.com/photo-app-gudda/' + thumbnailURL} />}
     />
   );
 };

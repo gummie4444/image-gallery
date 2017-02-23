@@ -7,7 +7,7 @@ const cx = classNames.bind(styles);
 const MainSection = ({ images }) => {
   const imageItems = images.map((image) => {
     return (<div key={image.id} className={cx('imageCell')}>
-      <img className={cx('image')} src={'/image/' + image.imageURL} />
+      <img className={cx('image')} src={'https://s3-eu-west-1.amazonaws.com/photo-app-gudda/' + image.imageURL} />
     </div>
     );
   });
