@@ -76,12 +76,14 @@ class AddImageModal extends React.Component {
         label="Cancel"
         primary={true}
         onClick={this.back.bind(this)}
+        disabled = {this.state.loading}
       />,
       <FlatButton
         label="Add image"
         primary={true}
         keyboardFocused={true}
         onClick={this.submit.bind(this)}
+        disabled = {this.state.loading}
       />
     ]
 
@@ -100,6 +102,7 @@ class AddImageModal extends React.Component {
               onClick ={this.removeThisImage.bind(this)}
               label = "Chose another image"
               secondary={true}
+              disabled = {this.state.loading}
             />
         </div>
     )
@@ -111,6 +114,7 @@ class AddImageModal extends React.Component {
         hintText="Nafn"
         floatingLabelText="Nafn"
         type ="text"
+        disabled = {this.state.loading}
       />
       <br/>
       <TextField
@@ -118,6 +122,7 @@ class AddImageModal extends React.Component {
         hintText="Question"
         floatingLabelText="Question"
         type ="text"
+        disabled = {this.state.loading}
       />
       <br/>
       <TextField
@@ -125,6 +130,7 @@ class AddImageModal extends React.Component {
         hintText="Answer"
         floatingLabelText="Answer"
         type ="text"
+        disabled = {this.state.loading}
       />
      </div>      
     )
@@ -136,7 +142,7 @@ class AddImageModal extends React.Component {
         open={isOpen}
         onRequestClose={this.back.bind(this)}
         >
-        {this.state.loading && 'UPPLOADING IMAGE WAIT '}
+        {this.state.loading && <div style ={{width:'100%'}}>UPPLOADING IMAGE WAIT <LinearProgress mode="indeterminate" /></div> }
         <div className = {cx("addImageModalWrapper")}>
           {this.state.files.length !== 0 ?
             imagePreview()
