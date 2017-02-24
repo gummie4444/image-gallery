@@ -1,5 +1,5 @@
 import { OAuth2Strategy as GoogleStrategy } from 'passport-google-oauth';
-import { google } from '../../../config/env';
+import { google } from '../../../config/secrets';
 import unsupportedMessage from '../../db/unsupportedMessage';
 import { passport as dbPassport } from '../../db';
 
@@ -29,6 +29,8 @@ export default (passport) => {
   * credentials and calls done providing a user, as well
   * as options specifying a client ID, client secret, and callback URL.
   */
+
+
   passport.use(new GoogleStrategy({
     clientID: google.clientID,
     clientSecret: google.clientSecret,

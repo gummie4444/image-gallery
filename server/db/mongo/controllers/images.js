@@ -8,14 +8,12 @@ import Images from '../models/images';
 // MOVE SOMEWHERE
 AWS.config.update(
 {
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID || AWS_SECRET_ACCESS_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || AWS_SECRET_ACCESS_SECRET,
+  accessKeyId: AWS_SECRET_ACCESS_ID,
+  secretAccessKey: AWS_SECRET_ACCESS_SECRET,
   subregion: 'eu-west-1',
 });
 
-
 const s3 = new AWS.S3();
-
 
 /**
  * List
@@ -49,8 +47,8 @@ export function multerMiddleware(req, res, next) {
  */
 
 export function add(req, res) {
-  console.log("ADDING",req.body);
-  console.log("ADDING",req.file);
+
+
   if (req.file) {
       const imagePath = req.body.id + '-' + req.file.originalname;
      return s3.putObject({
