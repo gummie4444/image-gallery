@@ -24,14 +24,24 @@ class MainSection extends React.Component {
     this.state = {
       image: {},
       isOpen: false,
-      isImageRight:isImageRight,
-      isImageLeft:isImageLeft,
-      index:-1
+      isImageRight: isImageRight,
+      isImageLeft: isImageLeft,
+      index: -1
     };
   }
 
+    componentDidMount() {
+     document.addEventListener('keydown', this.handleArrowKeys.bind(this), false);
+   }
+
+   componentDidUnMount(){
+    document.removeEveentListener('keydown', this.handleArrowKeys, false);
+   }
+
+
+
   openModal(image){
-    let index = this.getIndex(image);
+    const index = this.getIndex(image);
     this.setState({
       image: image,
       isOpen: true,
@@ -43,7 +53,7 @@ class MainSection extends React.Component {
 
   closeModal(){
     this.setState({
-      image:{},
+      image: {},
       isOpen: false
     });
   }
@@ -51,7 +61,7 @@ class MainSection extends React.Component {
   getIndex(image) {
     const array = this.props.images;
     const key = image.id
-    for (var i = 0; i < array.length; i++) {
+    for (let i = 0; i < array.length; i++) {
       if (array[i]['id'] == key) {
         return i;
       }
@@ -59,15 +69,28 @@ class MainSection extends React.Component {
     return -1;
   }
 
-  isNextImageRight(index){
-    return index != this.props.images.length-1
+
+  handleArrowKeys(event) {
+
+    if (this.state.isOpen) {
+      if (event.keyCode === 37 && this.state.isImageLeft) {
+        this.nextImageLeft();
+      }
+      else if (event.keyCode === 39 && this.state.isImageRight) {
+        this.nextImageRight();
+      }
+    }
+   }
+
+  isNextImageRight(index) {
+    return index !== this.props.images.length - 1;
   }
 
-  isNextImageLeft(index){
-    return index > 0; 
+  isNextImageLeft(index) {
+    return index > 0;
   }
 
-  nextImageRight(){
+  nextImageRight() {
     const newIndex = this.state.index + 1;
 
     this.setState({
@@ -75,45 +98,44 @@ class MainSection extends React.Component {
       isImageRight: this.isNextImageRight(newIndex),
       isImageLeft: true,
       image: this.props.images[newIndex]
-    })
+    });
   }
 
-  nextImageLeft(){
-    const newIndex = this.state.index - 1
+  nextImageLeft() {
+    const newIndex = this.state.index - 1;
 
     this.setState({
       index: newIndex,
       isImageRight: true,
       isImageLeft: this.isNextImageLeft(newIndex),
       image: this.props.images[newIndex]
-    })
+    });
   }
 
-  render(){
+  render() {
     const {images} = this.props;
 
     const test = [...images, ...images,...images,...images,...images];
-    console.log(test,"test");
-    const imageItems = test.map((image,index) => {
-      return (<div onClick={ this.openModal.bind(this, image)} key={index} className={cx('imageCell')}>
+    const imageItems = images.map((image,index) => {
+      return (<div onClick={this.openModal.bind(this, image)} key={index} className={cx('imageCell')}>
         <img className={cx('image')} src={'https://s3-eu-west-1.amazonaws.com/photo-app-gudda/' + image.imageURL} />
       </div>
       );
     });
 
     return (
-      <div className={cx("imageWrapper")}>
-        <div className={cx("imageGrid")}>
+      <div className={cx('imageWrapper')}>
+        <div className={cx('imageGrid')}>
           {imageItems}
         </div>
 
         <LargeImageModal
          isOpen={this.state.isOpen}
-         closeModal={this.closeModal.bind(this)} 
-         isImageLeft = { this.state.isImageLeft } 
-         isImageRight = { this.state.isImageRight } 
-         image={this.state.image} 
-         nextImageRight={this.nextImageRight.bind(this)} 
+         closeModal={this.closeModal.bind(this)}
+         isImageLeft={this.state.isImageLeft}
+         isImageRight={this.state.isImageRight}
+         image={this.state.image}
+         nextImageRight={this.nextImageRight.bind(this)}
          nextImageLeft={this.nextImageLeft.bind(this)} />
       </div>
      );
