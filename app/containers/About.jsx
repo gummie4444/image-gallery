@@ -12,16 +12,18 @@ const cx = classNames.bind(styles);
 const About = () => {
   return (
     <div className={cx('about')}>
-      <h1 className={cx('header')}>Um verkefni guddu</h1>
-      <div className={cx('description')}>
-        <p>gudda er prumpusvin sem langar ekki í vín<br />
-          bólgrafin api á minni möguleika að verða ólimpíumeistari í kúluvarpi...
+      <h1 className={cx('header')}>About this</h1>
+      <div style = {{textAlign:'center'}} className={cx('description')}>
+        <p>Twenty something someone trying to do something, with nothing and everything.
+          <br/>
+          <br/>
+          Rules:<br/>
+          <span>1. Talk to a stranger</span><br/>
+          <span>2. One shot on a disposable camera</span><br/>
+          <span>3. One question that contains the word ''best''</span><br/>        
         </p>
-      </div>
-      <div className={cx('contribute')}>
-        <p>her kemur mögulega eh email dot
-          emailemail &nbsp;
-        </p>
+        <br/>
+        <p> bytheway my name is gudda loooovling</p>
       </div>
     </div>
   );
