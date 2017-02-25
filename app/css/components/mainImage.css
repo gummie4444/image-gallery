@@ -22,6 +22,7 @@
   overflow: hidden;
   flex: 0 0 calc((100vw * 1/3) - (4*25px+1px));
   margin: 25px;
+  cursor: pointer;
 }
 
 .imageCell img {
