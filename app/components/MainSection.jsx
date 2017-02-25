@@ -90,9 +90,12 @@ class MainSection extends React.Component {
   }
 
   render(){
-    const {images,} = this.props;
-    const imageItems = images.map((image) => {
-      return (<div onClick={ this.openModal.bind(this, image)} key={image.id} className={cx('imageCell')}>
+    const {images} = this.props;
+
+    const test = [...images, ...images,...images,...images,...images];
+    console.log(test,"test");
+    const imageItems = test.map((image,index) => {
+      return (<div onClick={ this.openModal.bind(this, image)} key={index} className={cx('imageCell')}>
         <img className={cx('image')} src={'https://s3-eu-west-1.amazonaws.com/photo-app-gudda/' + image.imageURL} />
       </div>
       );
