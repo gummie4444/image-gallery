@@ -34,4 +34,6 @@
 
 .imageMain{
   max-height:calc(100vh*0.7);
+  max-width:calc(100vw*0.8);
 }
+

@@ -32,6 +32,8 @@ class MainSection extends React.Component {
 
     componentDidMount() {
      document.addEventListener('keydown', this.handleArrowKeys.bind(this), false);
+
+
    }
 
    componentDidUnMount(){
@@ -60,15 +62,18 @@ class MainSection extends React.Component {
 
   getIndex(image) {
     const array = this.props.images;
-    const key = image.id
+    const key = image.id;
     for (let i = 0; i < array.length; i++) {
-      if (array[i]['id'] == key) {
+      if (array[i]['id'] === key) {
         return i;
       }
     }
     return -1;
   }
 
+  onImageLoad(index) {
+    console.log("loaded",index);
+  }
 
   handleArrowKeys(event) {
 
@@ -114,14 +119,14 @@ class MainSection extends React.Component {
 
   render() {
     const {images} = this.props;
-
-    const test = [...images, ...images,...images,...images,...images];
     const imageItems = images.map((image,index) => {
+
       return (<div onClick={this.openModal.bind(this, image)} key={index} className={cx('imageCell')}>
-        <img className={cx('image')} src={'https://s3-eu-west-1.amazonaws.com/photo-app-gudda/' + image.imageURL} />
+        <img onLoad={this.onImageLoad.bind(this, index)} className={cx('image')} src={'https://s3-eu-west-1.amazonaws.com/photo-app-gudda/' + image.imageURL} />
       </div>
       );
     });
+
 
     return (
       <div className={cx('imageWrapper')}>
