@@ -26,7 +26,7 @@ class LargeImageModal extends React.Component {
 			<ModalContainer onClose={closeModal}>
 				<ModalDialog onClose={closeModal}>
 					<h1>{image.name}</h1>
-					<img style={{maxHeight:'400px'}}  src={'https://s3-eu-west-1.amazonaws.com/photo-app-gudda/' + image.imageURL} />
+					<img className={cx(styles.imageMain)}  src={'https://s3-eu-west-1.amazonaws.com/photo-app-gudda/' + image.imageURL} />
 					<br/>
 					<span>Q: {image.question}</span><br/>
 					<span>A: {image.answer}</span>

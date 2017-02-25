@@ -2,7 +2,7 @@
 .leftButton,.rightButton {
   height: 20px;
   width: 20px;
-  margin:20px;
+  margin: 20px;
 }
 
 .leftButtonDiv,.rightButtonDiv{
@@ -30,4 +30,8 @@
 
 .rightButtonDiv:active img, .rightButtonDiv:active img {
      transform:scale(.90);
+}
+
+.imageMain{
+  max-height:calc(100vh*0.7);
 }
