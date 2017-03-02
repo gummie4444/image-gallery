@@ -23,10 +23,17 @@
   height: calc((100vw * 1/3) - (4*25px-2px));
   overflow: hidden;
   flex: 0 0 calc((100vw * 1/3) - (4*25px+1px));
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+      transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+
+
   margin: 25px;
   cursor: pointer;
 }
 
+.imageCell:hover {
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
 .imageCell img {
   position: absolute;
   left: 50%;

@@ -13,6 +13,8 @@ AWS.config.update(
   subregion: 'eu-west-1',
 });
 
+console.log(AWS_SECRET_ACCESS_ID, AWS_SECRET_ACCESS_SECRET, 'secrets');
+
 const s3 = new AWS.S3();
 
 /**
@@ -32,7 +34,7 @@ export function all(req, res) {
  * Get single image from server
  */
 export function image(req, res) {
-  const TARGET_PATH = path.resolve(__dirname,'../server/publics/uploads'); // TODO BETTERUIFEHRIFH
+  const TARGET_PATH = path.resolve(__dirname, '../server/publics/uploads'); // TODO BETTERUIFEHRIFH
   const targetPath = path.join(TARGET_PATH, req.params.image);
 
   res.sendFile(targetPath);
@@ -47,7 +49,7 @@ export function multerMiddleware(req, res, next) {
  */
 
 export function add(req, res) {
-
+console.log(AWS_SECRET_ACCESS_ID, AWS_SECRET_ACCESS_SECRET, 'secrets');
 
   if (req.file) {
       const imagePath = req.body.id + '-' + req.file.originalname;
@@ -57,14 +59,14 @@ export function add(req, res) {
       Body: req.file.buffer,
       ACL: 'public-read' // ypur permission
     })
-     .on('httpUploadProgress', (progress) => { console.log(progress,"progress")})
+     .on('httpUploadProgress', (progress) => { console.log(progress, 'progress'); })
      .send((err, result) => {
-      if (err){
-        console.log("errorUpploading");
+      if (err) {
+        console.log('errorUpploading', err);
         return res.status(400).send(err);
       }
 
-      console.log(result,"s3 result");
+      console.log(result, 's3 result');
 
       const newImage = new Images();
       newImage.name = req.body.name;
@@ -74,24 +76,23 @@ export function add(req, res) {
       newImage.id = req.body.id;
       newImage.thumbnailURL = imagePath; // TODO BETTER
 
-       return newImage.save((mongoError,image) => {
-        if(mongoError)
-           res.status(400).send(mongoError);
+       return newImage.save((mongoError, image) => {
+        if (mongoError) {
+          res.status(400).send(mongoError);
+        }
 
          return res.status(200).json(newImage);
       });
     });
   }
-  else {
     return res.status(400).send('Could not uppload image');
-  }
 }
 
 /**
  * Update a topic
  */
 export function update(req, res) {
-  //TODO
+  // TODO
   const query = { id: req.params.id };
   const isIncrement = req.body.isIncrement;
   const isFull = req.body.isFull;
@@ -123,7 +124,7 @@ export function update(req, res) {
  * Remove a topic
  */
 export function remove(req, res) {
-  //TODO
+  // TODO
   const query = { id: req.params.id };
   Images.findOneAndRemove(query, (err) => {
     if (err) {
